@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemesanan Tiket Bus</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #e8f0fe;
+      margin: 0;
+      padding: 24px;
+      color: #222;
+    }
+    .container {
+      max-width: 430px;
+      margin: 24px auto;
+      padding: 24px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.12);
+      text-align: center;
+    }
+    h1 { color: #174ea6; font-size: 24px; }
+    .tujuan {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 13px;
+      border: 0;
+      border-radius: 8px;
+      background: #1976d2;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .tujuan:hover, .hitung:hover { background: #0d47a1; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 14px 0 8px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .hitung {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 8px;
+      background: #1976d2;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #tujuanDipilih, #hasil { margin-top: 18px; line-height: 1.7; }
+    #hasil { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>PEMESANAN TIKET BUS</h1>
+    <p>Silakan pilih tujuan perjalanan:</p>
+
+    <button class="tujuan" onclick="pilihBus(1)">1. Malang - Surabaya (Rp35.000)</button>
+    <button class="tujuan" onclick="pilihBus(2)">2. Malang - Pasuruan (Rp20.000)</button>
+    <button class="tujuan" onclick="pilihBus(3)">3. Malang - Jombang (Rp25.000)</button>
+
+    <p id="tujuanDipilih">Belum ada tujuan yang dipilih.</p>
+    <input type="number" id="jumlah" min="1" step="1" placeholder="Masukkan jumlah penumpang">
+    <button class="hitung" onclick="hitungTotal()">Hitung Total</button>
+    <div id="hasil" aria-live="polite"></div>
+  </main>
+
+  <script>
+    let harga = 0;
+    let namaTujuan = "";
+
+    function pilihBus(pilihan) {
+      if (pilihan === 1) {
+        namaTujuan = "Malang - Surabaya";
+        harga = 35000;
+      } else if (pilihan === 2) {
+        namaTujuan = "Malang - Pasuruan";
+        harga = 20000;
+      } else if (pilihan === 3) {
+        namaTujuan = "Malang - Jombang";
+        harga = 25000;
+      }
+
+      document.getElementById("tujuanDipilih").textContent =
+        "Tujuan: " + namaTujuan + " | Harga tiket: " +
+        harga.toLocaleString("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
+      document.getElementById("hasil").textContent = "";
+    }
+
+    function hitungTotal() {
+      const jumlah = Number(document.getElementById("jumlah").value);
+      const hasil = document.getElementById("hasil");
+
+      if (harga === 0) {
+        alert("Pilih tujuan terlebih dahulu!");
+        return;
+      }
+      if (!Number.isInteger(jumlah) || jumlah < 1) {
+        alert("Masukkan jumlah penumpang minimal 1!");
+        return;
+      }
+
+      const total = harga * jumlah;
+      hasil.innerHTML =
+        "Tujuan: " + namaTujuan + "<br>" +
+        "Harga per tiket: " + harga.toLocaleString("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }) + "<br>" +
+        "Jumlah penumpang: " + jumlah + "<br>" +
+        "Total pembayaran: " + total.toLocaleString("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
+    }
+  </script>
+</body>
+</html>
